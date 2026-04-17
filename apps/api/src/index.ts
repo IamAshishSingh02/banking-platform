@@ -4,6 +4,8 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import { db } from "@banking-platform/database";
+import authRoutes from "./routes/auth.router";
+
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running");
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 app.get("/users", async (req, res) => {
   try {
