@@ -3,8 +3,9 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import { db } from "@banking-platform/database";
 import authRoutes from "./routes/auth.router";
+import { authMiddleware } from "./middlewares/auth.middleware";
+
 
 
 const app = express();
@@ -16,16 +17,11 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
-app.use("/api/v1/auth", authRoutes);
-
-app.get("/users", async (req, res) => {
-  try {
-    const users = await db.user.findMany();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
-  }
+app.get("/api/v1/protected", authMiddleware, (req, res) => {
+  res.json({ message: "You are authenticated" });
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 const PORT = process.env.PORT || 3001;
 
