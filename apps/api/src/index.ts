@@ -5,8 +5,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.router";
 import { authMiddleware } from "./middlewares/auth.middleware";
-
-
+import accountRoutes from "./routes/account.routes";
 
 const app = express();
 
@@ -22,6 +21,7 @@ app.get("/api/v1/protected", authMiddleware, (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/accounts", accountRoutes);
 
 const PORT = process.env.PORT || 3001;
 
