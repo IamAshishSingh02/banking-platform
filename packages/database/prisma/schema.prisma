@@ -41,3 +41,13 @@ model Session {
   user User @relation(fields: [userId], references: [id])
   @@index([userId])
 }
+
+model Transaction {
+  id               String   @id @default(uuid())
+  fromAccountId    String
+  toAccountId      String
+  amount           Decimal
+  status           String
+  idempotencyKey   String   @unique
+  createdAt        DateTime @default(now())
+}
